@@ -1,0 +1,5 @@
+org\example\telegram\commands\ServiceCommands.class
+org\example\telegram\commands\BeginCommand.class
+org\example\Main.class
+org\example\telegram\commands\HelpCommand.class
+org\example\telegram\MyTelegramPomodoroBot.class
