@@ -22,8 +22,8 @@ public class MyTelegramPomodoroBot extends TelegramLongPollingCommandBot {
         TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
         try {
             botsApi.registerBot(this);
-            register(new BeginCommand("begin", "Начало"));
-            register(new HelpCommand("help", "Справка"));
+            register(new BeginCommand("begin", "Start"));
+            register(new HelpCommand("help", "Information"));
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
@@ -42,56 +42,56 @@ public class MyTelegramPomodoroBot extends TelegramLongPollingCommandBot {
     @Override
     public void processNonCommandUpdate(Update update) {
         chatId = update.getMessage().getChatId().toString();
-        if (update.hasMessage() && isNumeric(update.getMessage().getText()) && BeginCommand.isBegin){
+        if (update.hasMessage() && isNumeric(update.getMessage().getText()) && BeginCommand.isBegin) {
             String message;
             BeginCommand.isBegin = false;
-            int count = Integer.parseInt(update.getMessage().getText()); // количество дел
-            for (int i = 1; i <= count ; i++) {
-                message = "Задача № " + i + " началась";
+            int count = Integer.parseInt(update.getMessage().getText()); // number of tasks
+            for (int i = 1; i <= count; i++) {
+                message = "The task # " + i + " starts";
                 sendMessage(message);
                 try {
                     TimeUnit.MINUTES.sleep(WORK);
-                } catch (InterruptedException e){
+                } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-                message = "Задача № " + i + " завершилась";
+                message = "The task # " + i + " ends";
                 sendMessage(message);
-                if (count - i != 0){
-                    message = "Время отдыхать!";
+                if (count - i != 0) {
+                    message = "It's time to rest!";
                     sendMessage(message);
                     try {
                         TimeUnit.MINUTES.sleep(BREAK);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
-                    message = "Время работать";
+                    message = "It's time to do the best job!";
                     sendMessage(message);
                 }
             }
         } else {
-            String message = "Я не понимаю";
+            String message = "I don't understand";
             sendMessage(message);
         }
     }
 
-    private void sendMessage (String messageText){
+    private void sendMessage(String messageText) {
         SendMessage message = new SendMessage();
         message.setChatId(chatId);
         message.setText(messageText);
         try {
             execute(message);
-        } catch (TelegramApiException e){
+        } catch (TelegramApiException e) {
             e.printStackTrace();
         }
     }
 
-    public static boolean isNumeric (String strNum){
-        if (strNum == null){
+    public static boolean isNumeric(String strNum) {
+        if (strNum == null) {
             return false;
         }
         try {
             Integer.parseInt(strNum);
-        } catch (NumberFormatException nfe){
+        } catch (NumberFormatException nfe) {
             return false;
         }
         return true;

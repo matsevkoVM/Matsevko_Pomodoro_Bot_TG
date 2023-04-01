@@ -4,8 +4,9 @@ import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
-public class BeginCommand extends ServiceCommands{
+public class BeginCommand extends ServiceCommands {
     public static boolean isBegin = false;
+
     public BeginCommand(String commandIdentifier, String description) {
         super(commandIdentifier, description);
     }
@@ -13,7 +14,7 @@ public class BeginCommand extends ServiceCommands{
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
         sendAnswer(absSender, chat.getId(),
-                "Пожалуйста, введи количество задач, или '/help' для спавки");
+                "Please enter the number of tasks or '/help' for additional info");
         isBegin = true;
     }
 }
